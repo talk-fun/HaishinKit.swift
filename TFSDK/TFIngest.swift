@@ -282,12 +282,12 @@ public class TFIngest: NSObject {
     //TODO: 结束推流
     @objc public func stopLive()
     {
-//        if self.preference.isConnected {
+
             DispatchQueue.main.async {
                 UIApplication.shared.isIdleTimerDisabled = true
             }
             preference.stopLive()
-//        }
+
    
     }
     //TODO: 开始推流
@@ -302,9 +302,8 @@ public class TFIngest: NSObject {
             if configuration.streamMode == .rtmp {
                   
                     do {
-                    guard
-                      
-                        let stream = preference.stream() as? RTMPStream else {
+                        
+                    guard let stream = preference.stream() as? RTMPStream else {
                         return
                     }
                     let connection = preference.rtmpConnection
