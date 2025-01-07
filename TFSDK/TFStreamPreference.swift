@@ -28,8 +28,7 @@ public class TFStreamPreference: NSObject {
      var srtCancellable: AnyCancellable?
     
     var push_status = TFIngestStreamReadyState.idle
-    //推流已经连接
-    @objc public var isConnected:Bool = false
+
     override init() {
         super.init()
 
@@ -110,11 +109,11 @@ public class TFStreamPreference: NSObject {
                             switch newState {
                             case .idle:
                                 print("srt流处于空闲状态。")
-                                self.isConnected = false
+        
                             case .publishing:
                                 print("srt流正在发布中")
                                  status = .publishing
-                                self.isConnected = true
+
                             case .playing:
 //                                print("srt流正在播放。")
                                 break
@@ -147,11 +146,11 @@ public class TFStreamPreference: NSObject {
                             switch newState {
                             case .idle:
                                 print("rtmp流处于空闲状态。")
-                                self.isConnected = false
+
                             case .publishing:
                                 print("rtmp流正在发布中")
                                  status = .publishing
-                                self.isConnected = true
+
                             case .playing:
 //                                print("rtmp流正在播放。")
                                 break

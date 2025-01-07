@@ -406,7 +406,6 @@ public class TFIngest: NSObject {
                       await mixer.removeOutput(srtStream)
                   }
                  
-                 self.preference.isConnected = startLive
                  let startTime = DispatchTime.now()
                  self.configurationSDK(preview: preview,
                                        videoSize: configuration.videoSize,
