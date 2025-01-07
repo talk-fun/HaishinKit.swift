@@ -42,7 +42,6 @@
     
     [self view:self.view addButton:CGRectMake(rightX, 50, 100, 30) title:@"退出" action:@selector(exitBtnClick:) selected:false];
     self.streamBtn = [self view:self.view addButton:CGRectMake(0, 50, 100, 30) title:@"RTMP推流" action:@selector(streamClick:) selected:1];
-    self.streamBtn.selected = true;
     
     [self view:self.view addButton:CGRectMake(0, 100, 100, 30) title:@"开始推流" action:@selector(srtClick:) selected:false];
     
@@ -491,7 +490,7 @@
 }
 - (NSString*)SRT_URL
 {
-    return @"srt://live-push-15.talk-fun.com:9000?streamid=#!::h=live-push-15.talk-fun.com,r=live/24827_JCMnJSAnSCshLC4vKClAEA,txSecret=f712e3d25f21774150ae9d5b4b2a4760,txTime=67736838";
+    return @"srt://live-push-15.talk-fun.com:9000?streamid=#!::h=live-push-15.talk-fun.com,r=live/24827_JCMnJSAnSCshLSopKitAEA,txSecret=e70a3a88721b50da504145728367b54b,txTime=677E1639";
 }
 
 - (void)dealloc{
