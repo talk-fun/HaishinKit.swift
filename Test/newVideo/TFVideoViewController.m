@@ -41,7 +41,7 @@
     CGFloat rightX = self.view.frame.size.width-100;
     
     [self view:self.view addButton:CGRectMake(rightX, 50, 100, 30) title:@"退出" action:@selector(exitBtnClick:) selected:false];
-    self.streamBtn = [self view:self.view addButton:CGRectMake(0, 50, 100, 30) title:@"SRT推流" action:@selector(streamClick:) selected:1];
+    self.streamBtn = [self view:self.view addButton:CGRectMake(0, 50, 100, 30) title:@"RTMP推流" action:@selector(streamClick:) selected:1];
     self.streamBtn.selected = true;
     
     [self view:self.view addButton:CGRectMake(0, 100, 100, 30) title:@"开始推流" action:@selector(srtClick:) selected:false];
@@ -96,16 +96,16 @@
     self.ingest.frontCameraPreviewLockedToFlipHorizontally = false;
     [self.ingest setSDKWithPreview:self.view2
                       videoSize:self.videoSizeMak
-                 videoFrameRate:24
+                 videoFrameRate:30
                    videoBitRate:600*1024
-                     streamMode:TFStreamModeSrt
+                        streamMode:TFStreamModeRtmp
                             mirror:true
                      cameraType:AVCaptureDeviceTypeBuiltInWideAngleCamera
                           position:AVCaptureDevicePositionFront
             outputImageOrientation:AVCaptureVideoOrientationPortrait];
     
     //设置URL
-    self.pushUrl = [self SRT_URL];
+    self.pushUrl = [self RTMP_URL];
 
 }
 - (void)sizeMakeClick:(UIButton*)btn
@@ -128,7 +128,7 @@
 //        [btn setTitle:@"CGSizeMake(180, 320)" forState:UIControlStateNormal];
         
         [_ingest setVideoMixerSettingsWithVideoSize:CGSizeMake(240, 320)
-                                         videoFrameRate:24
+                                         videoFrameRate:30
                                            videoBitRate:600*1024];
     }
     
@@ -487,7 +487,7 @@
 }
 - (NSString*)RTMP_URL
 {
-    return @"rtmp://live-push-15.talk-fun.com/live/24827_JCMnJSAnSCshLC4vKClAEA?txSecret=a6a028fcebeeb1391f2b2be98fd242ad&txTime=67736846";
+    return @"rtmp://live-push-15.talk-fun.com/live/24827_JCMnJSAnSCshLSopKitAEA?txSecret=8fda9027f0dd77402c98edf7b42b3a69&txTime=677E02FF";
 }
 - (NSString*)SRT_URL
 {
