@@ -29,6 +29,7 @@ public class TFStreamPreference: NSObject {
     
     var push_status = TFIngestStreamReadyState.idle
 
+  @objc public var isStartLive:Bool = false
     override init() {
         super.init()
 

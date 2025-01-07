@@ -287,7 +287,7 @@ public class TFIngest: NSObject {
                 UIApplication.shared.isIdleTimerDisabled = true
             }
             preference.stopLive()
-
+            preference.isStartLive = false
    
     }
     //TODO: 开始推流
@@ -313,7 +313,7 @@ public class TFIngest: NSObject {
                     let publish_response = try await stream.publish(TFIngestTool.extractLastPathComponent(from: url))
                     logger.info(publish_response)
                         
-                       
+                        preference.isStartLive = true
                         self.startLiveCallback(callback,code:0,msg: "")
                         
                         
