@@ -63,8 +63,13 @@ public class TFStreamPreference: NSObject {
     func stopLive()
     {
         Task {
-            await srtStream?.close()
-          _ = try? await rtmpStream?.close()
+            if streamMode == .rtmp {
+                _ = try? await rtmpStream?.close()
+             
+            }else{
+                await srtStream?.close()
+            }
+         
             
         }
     }
