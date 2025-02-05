@@ -677,27 +677,21 @@ public actor RTMPStream {
 
     /// Creates flv metadata for a stream.
     private func makeMetadata() -> AMFArray {
-        var metadata: AMFObject = [
-            "duration": 0
-        ]
+        // https://github.com/shogo4405/HaishinKit.swift/issues/1410
+        var metadata: AMFObject = ["duration": 0]
         if outgoing.videoInputFormat != nil {
             metadata["width"] = outgoing.videoSettings.videoSize.width
             metadata["height"] = outgoing.videoSettings.videoSize.height
-            #if os(iOS) || os(macOS) || os(tvOS)
-            // metadata["framerate"] = stream.frameRate
-            #endif
-            switch outgoing.videoSettings.format {
-            case .h264:
-                metadata["videocodecid"] = RTMPVideoCodec.avc.rawValue
-            case .hevc:
-                metadata["videocodecid"] = RTMPVideoFourCC.hevc.rawValue
-            }
+            metadata["videocodecid"] = outgoing.videoSettings.format.codecid
             metadata["videodatarate"] = outgoing.videoSettings.bitRate / 1000
         }
         if let audioFormat = outgoing.audioInputFormat?.audioStreamBasicDescription {
-            metadata["audiocodecid"] = RTMPAudioCodec.aac.rawValue
+            metadata["audiocodecid"] = outgoing.audioSettings.format.codecid
             metadata["audiodatarate"] = outgoing.audioSettings.bitRate / 1000
-            metadata["audiosamplerate"] = audioFormat.mSampleRate
+            metadata["audiosamplerate"] = outgoing.audioSettings.format.makeSampleRate(
+                audioFormat.mSampleRate,
+                output: outgoing.audioSettings.sampleRate
+            )
         }
         return AMFArray(metadata)
     }

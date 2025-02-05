@@ -363,7 +363,7 @@ struct RTMPSharedObjectMessage: RTMPMessage {
  7.1.5. Audio Message (9)
  */
 struct RTMPAudioMessage: RTMPMessage {
-    static let AAC_HEADER: UInt8 =
+    static let aacHeader: UInt8 =
         RTMPAudioCodec.aac.rawValue << 4 |
         RTMPSoundRate.kHz44.rawValue << 2 |
         RTMPSoundSize.snd16bit.rawValue << 1 |
@@ -387,14 +387,25 @@ struct RTMPAudioMessage: RTMPMessage {
     }
 
     init?(streamId: UInt32, timestamp: UInt32, formatDescription: CMFormatDescription?) {
-        guard let config = AudioSpecificConfig(formatDescription: formatDescription) else {
-            return nil
-        }
         self.streamId = streamId
         self.timestamp = timestamp
-        var buffer = Data([Self.AAC_HEADER, RTMPAACPacketType.seq.rawValue])
-        buffer.append(contentsOf: config.bytes)
-        self.payload = buffer
+        switch formatDescription?.mediaSubType {
+        case .opus:
+            guard let header = OpusHeaderPacket(formatDescription: formatDescription) else {
+                return nil
+            }
+            var buffer = Data([RTMPAudioCodec.exheader.rawValue << 4 | RTMPAudioPacketType.sequenceStart.rawValue])
+            buffer.append(contentsOf: RTMPAudioFourCC.opus.rawValue.bigEndian.data)
+            buffer.append(header.payload)
+            self.payload = buffer
+        default:
+            guard let config = AudioSpecificConfig(formatDescription: formatDescription) else {
+                return nil
+            }
+            var buffer = Data([Self.aacHeader, RTMPAACPacketType.seq.rawValue])
+            buffer.append(contentsOf: config.bytes)
+            self.payload = buffer
+        }
     }
 
     init?(streamId: UInt32, timestamp: UInt32, audioBuffer: AVAudioCompressedBuffer?) {
@@ -403,9 +414,17 @@ struct RTMPAudioMessage: RTMPMessage {
         }
         self.streamId = streamId
         self.timestamp = timestamp
-        var buffer = Data([Self.AAC_HEADER, RTMPAACPacketType.raw.rawValue])
-        buffer.append(audioBuffer.data.assumingMemoryBound(to: UInt8.self), count: Int(audioBuffer.byteLength))
-        self.payload = buffer
+        switch audioBuffer.format.formatDescription.mediaSubType {
+        case .opus:
+            var buffer = Data([RTMPAudioCodec.exheader.rawValue << 4 | RTMPAudioPacketType.codedFrames.rawValue])
+            buffer.append(contentsOf: RTMPAudioFourCC.opus.rawValue.bigEndian.data)
+            buffer.append(audioBuffer.data.assumingMemoryBound(to: UInt8.self), count: Int(audioBuffer.byteLength))
+            self.payload = buffer
+        default:
+            var buffer = Data([Self.aacHeader, RTMPAACPacketType.raw.rawValue])
+            buffer.append(audioBuffer.data.assumingMemoryBound(to: UInt8.self), count: Int(audioBuffer.byteLength))
+            self.payload = buffer
+        }
     }
 
     func copyMemory(_ audioBuffer: AVAudioCompressedBuffer?) {
