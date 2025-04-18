@@ -34,7 +34,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "libsrt",
-            path: "SRTHaishinKit/Vendor/SRT/libsrt.xcframework"
+            url: "https://github.com/HaishinKit/libsrt-xcframework/releases/download/v1.5.4/libsrt.xcframework.zip",
+            checksum: "76879e2802e45ce043f52871a0a6764d57f833bdb729f2ba6663f4e31d658c4a"
         ),
         .target(
             name: "HaishinKit",
@@ -61,6 +62,12 @@ let package = Package(
             resources: [
                 .process("Asset")
             ],
+            swiftSettings: swiftSettings
+        ),
+        .testTarget(
+            name: "SRTHaishinKitTests",
+            dependencies: ["SRTHaishinKit"],
+            path: "SRTHaishinKit/Tests",
             swiftSettings: swiftSettings
         )
     ],

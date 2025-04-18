@@ -1,11 +1,11 @@
 name: Bug Report
 description: |
-  Before posting, confirm whether the issue can be reproduced in the Example project(https://github.com/shogo4405/HaishinKit.swift?tab=readme-ov-file#-examples) as well.
+  Before posting, confirm whether the issue can be reproduced in the Example project(https://github.com/HaishinKit/HaishinKit.swift?tab=readme-ov-file#-examples) as well.
 body:
   - type: markdown
     attributes:
       value: | 
-        There are [standards for bug reports](https://github.com/shogo4405/HaishinKit.swift/wiki/BugReport-Standard) expected by the community. If you are posting for the first time, please read them carefully. Reports that do not meet these standards will be closed.
+        There are [standards for bug reports](https://github.com/HaishinKit/HaishinKit.swift/wiki/BugReport-Standard) expected by the community. If you are posting for the first time, please read them carefully. Reports that do not meet these standards will be closed.
   - type: textarea
     id: observed-behavior
     attributes:
